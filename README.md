@@ -1,6 +1,22 @@
 # ABOUT
 A 3D models Platform 
 
+## Installation
+Create a .env.local file in the root of the project and add the required environment variables
+```bash
+MONGODB_URI==<mongodb_url>
+NEXTAUTH_SECRET=<your_secret>
+NEXTAUTH_URL=http://localhost:3000
+AUTH_GOOGLE_ID=<your_google_client_id>
+AUTH_GOOGLE_SECRET=<your_google_client_secret>
+AUTH_DISCORD_ID=<your_discord_client_id>
+AUTH_DISCORD_SECRET=<your_discord_client_secret>
+AUTH_GITHUB_ID=<your_github_client_id>
+AUTH_GITHUB_SECRET=<your_github_client_secret>
+```
+
+
+
 ## Getting Started
 
 First, run the development server:
