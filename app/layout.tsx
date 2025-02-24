@@ -5,6 +5,9 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
+import { SessionProvider } from "next-auth/react";
+
+import { auth } from "@/lib/auth";
 
 const SpaceGrotesk = localFont({
   src: [
@@ -29,14 +32,22 @@ export const metadata: Metadata = {
   description: "A 3D platform showcasing the art of 3D design.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const session = await auth();
+
   return (
     <html lang="en">
-      <body
-        className={`${SpaceGrotesk.className} ${inter.className} antialiased`}
-      >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-      </body>
+      <SessionProvider session={session}>
+        <body
+          className={`${SpaceGrotesk.className} ${inter.className} antialiased`}
+        >
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </body>
+      </SessionProvider>
     </html>
   );
 }
