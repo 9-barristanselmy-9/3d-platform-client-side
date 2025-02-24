@@ -6,13 +6,17 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  if (!session?.user) redirect("/login");
+  if (!session) redirect("/login");
   return (
     <div className="[--header-height:calc(theme(spacing.14))]">
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
         <div className="flex flex-1">
-          <AppSidebar />
+          {session.user ? (
+            <AppSidebar user={session.user} />
+          ) : (
+            <div>Loading...</div>
+          )}
           <SidebarInset>
             <div className="flex flex-1 flex-col gap-4 p-4 bg-white">
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">

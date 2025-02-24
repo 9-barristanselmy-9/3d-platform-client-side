@@ -21,15 +21,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-
+import { User } from "next-auth";
 
 const data = {
-  user: {
-    name: "Barristan Selmy",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Categories",
@@ -116,12 +110,10 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ user }: { user: User }) {
+  console.log(user);
   return (
-    <Sidebar
-      className="top-[--header-height] !h-[calc(100svh-var(--header-height))]"
-      {...props}
-    >
+    <Sidebar className="top-[--header-height] !h-[calc(100svh-var(--header-height))]">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -145,7 +137,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );
