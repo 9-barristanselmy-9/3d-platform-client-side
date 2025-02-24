@@ -8,6 +8,7 @@ import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/lib/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 const SpaceGrotesk = localFont({
   src: [
@@ -46,6 +47,7 @@ export default async function RootLayout({
           className={`${SpaceGrotesk.className} ${inter.className} antialiased`}
         >
           <ReactQueryProvider>{children}</ReactQueryProvider>
+          <Toaster />
         </body>
       </SessionProvider>
     </html>
