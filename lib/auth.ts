@@ -3,6 +3,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import client from "@/lib/client";
+import Discord from "next-auth/providers/discord";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: MongoDBAdapter(client),
@@ -10,6 +11,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "database",
   },
   providers: [
+    Discord({
+      clientId: process.env.AUTH_DISCORD_ID,
+      clientSecret: process.env.AUTH_DISCORD_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
     GitHub({
       allowDangerousEmailAccountLinking: true,
     }),
