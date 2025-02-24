@@ -12,7 +12,7 @@ export function LoginForm({
   return (
     <div
       className={cn(
-        "flex flex-col gap-6 w-full h-screen max-w-5xl mx-auto",
+        "flex flex-col gap-6 w-full h-full max-w-5xl mx-auto",
         className
       )}
       {...props}
@@ -38,7 +38,6 @@ export function LoginForm({
             <Image
               src="/assets/log-in.png"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale "
               width={1000}
               height={1000}
               priority
