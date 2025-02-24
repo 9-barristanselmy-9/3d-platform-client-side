@@ -1,4 +1,4 @@
-#About
+# ABOUT
 A 3D models Platform 
 
 ## Getting Started
