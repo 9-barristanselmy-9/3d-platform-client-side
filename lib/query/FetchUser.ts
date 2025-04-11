@@ -9,7 +9,7 @@ export async function getUserFromDb(email: string) {
 
     const user = await User.findOne({ email }).select("+password");
     return user;
-  } catch (error) {
-    throw new Error("Error fetching user from database");
+  } catch (error: unknown) {
+    throw new Error("Error fetching user from database" + error);
   }
 }
