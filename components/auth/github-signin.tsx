@@ -6,15 +6,14 @@ function GithubSignIn() {
     <>
       <form
         action={async () => {
-                  "use server";
-                  await signIn("github", {
-                    redirectTo: "/",
-                  });
-                }}
+          "use server";
+          await signIn("github", {
+            redirectTo: "/",
+          });
+        }}
       >
-        <Button className="w-full h-12 flex items-center justify-center text-white">
+        <Button variant="outline" className="w-full">
           <Github />
-          Sign in with Github
         </Button>
       </form>
     </>
