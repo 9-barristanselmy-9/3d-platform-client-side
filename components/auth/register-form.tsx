@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   Form,
@@ -16,8 +16,18 @@ import { z } from "zod";
 import { registerSchema } from "@/types/validation/registerSchema";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { FormSuccess } from "./form-success";
+import { FormError } from "./form-error";
+import { register } from "@/actions/register";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 function RegisterForm() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -28,13 +38,44 @@ function RegisterForm() {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    setLoading(true);
+    try {
+      const res = await register(data);
+
+      if (res.error) {
+        setError(res.error);
+        setSuccess("");
+        return;
+      }
+
+      if (res.success) {
+        setSuccess(res.success);
+        router.push("/");
+        setError("");
+      }
+    } catch (err) {
+      setError(`Something went wrong. Please try again ${err}`);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col gap-6 w-full  sm:min-w-[400px] h-full  mx-auto">
       <Card className="overflow-hidden w-full h-full mx-auto">
-        <CardHeader className="text-4xl font-bold flex justify-center items-center">
-          <CardTitle className="text-2xl">Create an account</CardTitle>
-        </CardHeader>
+        <div className="relative flex justify-center items-center w-full">
+          <button
+            onClick={() => router.push("/auth/login")}
+            className="absolute left-0 ml-4 p-2 hover:opacity-80 transition"
+            aria-label="Go back to login"
+          >
+            <ArrowLeft className="ml-5" />
+          </button>
+
+          <CardHeader className="flex justify-center items-center">
+            <CardTitle className="text-2xl">Create an account</CardTitle>
+          </CardHeader>
+        </div>
         <CardContent className="flex flex-col h-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -94,8 +135,14 @@ function RegisterForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full text-white">
-                Register
+              <FormSuccess message={success} />
+              <FormError message={error} />
+              <Button
+                type="submit"
+                className="w-full text-white"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Resister"}
               </Button>
             </form>
           </Form>

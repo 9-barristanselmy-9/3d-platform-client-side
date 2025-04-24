@@ -1,4 +1,3 @@
-
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -11,8 +10,25 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  ...compat.config({
+    plugins: ["@typescript-eslint"],
+    extends: ["next/core-web-vitals", "next/typescript", "prettier"],
+    rules: {
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-page-custom-font": "off",
 
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+      "@typescript-eslint/ban-types": [
+        "error",
+        {
+          types: {
+            object: false,
+            "{}": false,
+          },
+          extendDefaults: true,
+        },
+      ],
+    },
+  }),
 ];
 
 export default eslintConfig;

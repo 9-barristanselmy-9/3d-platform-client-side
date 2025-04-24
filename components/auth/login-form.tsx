@@ -1,18 +1,58 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import DiscordSignIn from "./discord-signin";
-import GithubSignIn from "./github-signin";
 
-import GoogleSignIn from "./google-signin";
-import { Label } from "../ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { LoginSchema } from "@/types/validation/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { login } from "@/actions/login";
+import { FormError } from "./form-error";
+import GoogleLogIn from "./google-button";
+import DiscordLogIn from "./discord-button";
+import GitHubLogIn from "./github-button";
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
+    setLoading(true);
+    login(data).then((res) => {
+      if (res.error) {
+        setLoading(false);
+        setError(res.error);
+      }
+      if (res.success) {
+        setLoading(false);
+        setError("");
+      }
+      setLoading(false);
+    });
+  };
   return (
     <div
       className={cn(
@@ -24,43 +64,83 @@ export function LoginForm({
       <Card className="overflow-hidden w-full h-full mx-auto">
         <CardContent className="grid p-0 md:grid-cols-2 h-full">
           <div className="p-6 md:p-12 flex flex-col justify-center items-center h-full">
-            <div className="flex flex-col gap-6 justify-center items-center">
+            <div className="flex flex-col gap-3 justify-center items-center">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-4xl font-bold">Login</h1>
               </div>
-              <form className="p-6 md:p-8">
-                <div className="flex flex-col gap-6">
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="m@example.com"
-                      required
-                    />
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="pt-5 pb-2 md:p-6"
+                >
+                  <div className="flex flex-col gap-6">
+                    <div className="grid gap-2">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Email"
+                                type="email"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="*******"
+                                type="password"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormError message={error} />
+                    <Button
+                      type="submit"
+                      className="w-full text-white"
+                      disabled={loading}
+                    >
+                      {loading ? "Loading...." : "Login"}
+                    </Button>
                   </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" required />
-                  </div>
-                  <Button type="submit" className="w-full text-white">
-                    Login
-                  </Button>
-                </div>
-              </form>
+                </form>
+              </Form>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-white px-2 text-muted-foreground">
                   Or continue with
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-4">
-                <DiscordSignIn />
-                <GithubSignIn />
-                <GoogleSignIn />
+              <div className="flex justify-center items-center">
+                <div className="grid grid-cols-3 gap-3">
+                  <GoogleLogIn />
+                  <DiscordLogIn />
+                  <GitHubLogIn />
+                </div>
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4">
+                <Link
+                  href="/auth/signup"
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </Link>
               </div>

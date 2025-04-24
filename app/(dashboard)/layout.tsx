@@ -16,9 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={` ${inter.className} antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-      </body>
+      <body className={` ${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }

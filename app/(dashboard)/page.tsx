@@ -2,18 +2,16 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  if (!session) redirect("/login");
   return (
     <div className="[--header-height:calc(theme(spacing.14))]">
       <SidebarProvider className="flex flex-col">
         <SiteHeader />
         <div className="flex flex-1">
-          {session.user ? (
-            <AppSidebar user={session.user} />
+          {session?.user ? (
+            <AppSidebar user={session?.user} />
           ) : (
             <div>Loading...</div>
           )}

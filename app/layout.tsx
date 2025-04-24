@@ -46,7 +46,7 @@ export default async function RootLayout({
         <body
           className={`${SpaceGrotesk.className} ${inter.className} antialiased`}
         >
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          {children}
           <Toaster />
         </body>
       </SessionProvider>
