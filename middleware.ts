@@ -7,7 +7,7 @@ export default auth(async (req) => {
   const isLoggedIn = !!req.auth;
 
   const { nextUrl } = req;
-  const url = "http://localhost:3000";
+  const url = req.nextUrl.origin;
   const isPrivateRoutes = privateRoutes.includes(nextUrl.pathname);
 
   const isAuthRoute = nextUrl.pathname.includes("/auth");
