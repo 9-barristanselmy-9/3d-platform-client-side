@@ -4,7 +4,6 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
-import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/lib/auth";

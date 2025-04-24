@@ -12,21 +12,16 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.config({
     plugins: ["@typescript-eslint"],
-    extends: ["next/core-web-vitals", "next/typescript", "prettier"],
+    extends: [
+      "next/core-web-vitals",
+      "next/typescript",
+      "prettier",
+      "plugin:@typescript-eslint/recommended",
+    ],
     rules: {
       "react/no-unescaped-entities": "off",
       "@next/next/no-page-custom-font": "off",
-
-      "@typescript-eslint/ban-types": [
-        "error",
-        {
-          types: {
-            object: false,
-            "{}": false,
-          },
-          extendDefaults: true,
-        },
-      ],
+      "@typescript-eslint/no-unused-expressions": "off",
     },
   }),
 ];
