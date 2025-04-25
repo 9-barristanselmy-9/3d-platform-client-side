@@ -22,6 +22,11 @@ For now, you can **sign up and log in** — the rest is coming soon!
 - **Frontend:** Next.js 15 (using Server Actions), React, Tailwind CSS
 - **Database:** MongoDB with **Prisma ORM**
 - **Authentication:** Auth.js v5
+## 🔐 Demo Login
+You can explore the app using:
+
+**Email**: demo@demo.com  
+**Password**: demopassword
 ## Installation
 Create a .env.local file in the root of the project and add the required environment variables
 ```bash
