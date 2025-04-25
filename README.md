@@ -1,7 +1,27 @@
 # ABOUT
-3D Model Sharing Platform
-A platform where you can upload, showcase, and explore 3D models — built for creators, designers, and 3D artists
+# 🧊 3D Model Sharing Platform
+A platform where creators can soon upload and share 3D models.  
+For now, you can **sign up and log in** — the rest is coming soon!
 
+## 🔐 Current Features
+
+- ✅ User registration (sign up)
+- ✅ User login (sign in)
+- 🔒 Protected routes for authenticated users
+  
+## 🚀 Coming Soon   
+- 🧠 Upload and preview 3D models
+- 👤 User profiles
+- ❤️ Like & comment system
+- 🗃 Model management dashboard
+- 🔍 Discover and explore public models
+- 🧼 Content moderation
+- 📦 15GB free storage per user
+
+## 🧱 Tech Stack
+- **Frontend:** Next.js 15 (using Server Actions), React, Tailwind CSS
+- **Database:** MongoDB with **Prisma ORM**
+- **Authentication:** Auth.js v5
 ## Installation
 Create a .env.local file in the root of the project and add the required environment variables
 ```bash
