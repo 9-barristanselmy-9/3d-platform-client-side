@@ -1,5 +1,6 @@
 # ABOUT
-A 3D models Platform 
+3D Model Sharing Platform
+A platform where you can upload, showcase, and explore 3D models — built for creators, designers, and 3D artists
 
 ## Installation
 Create a .env.local file in the root of the project and add the required environment variables
