@@ -51,7 +51,7 @@ function RegisterForm() {
 
       if (res.success) {
         setSuccess(res.success);
-        router.push("/");
+        router.push("/auth/login");
         setError("");
       }
     } catch (err) {

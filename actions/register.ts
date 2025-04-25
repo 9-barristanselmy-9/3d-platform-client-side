@@ -4,7 +4,6 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { registerSchema } from "@/types/validation/registerSchema";
 import { prisma } from "@/prisma/prisma";
-import { signIn } from "@/lib/auth";
 
 export const register = async (data: z.infer<typeof registerSchema>) => {
   try {
@@ -39,11 +38,6 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
         name,
         password: hashedPassword,
       },
-    });
-
-    await signIn("credentials", {
-      email: lowerCaseEmail,
-      password: password,
     });
 
     return { success: "User created successfully" };
