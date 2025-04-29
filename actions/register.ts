@@ -4,6 +4,8 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { registerSchema } from "@/types/validation/registerSchema";
 import { prisma } from "@/prisma/prisma";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const register = async (data: z.infer<typeof registerSchema>) => {
   try {
@@ -39,6 +41,12 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
         password: hashedPassword,
       },
     });
+
+    const verificationToken = await generateVerificationToken(lowerCaseEmail);
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
 
     return { success: "User created successfully" };
   } catch (error) {

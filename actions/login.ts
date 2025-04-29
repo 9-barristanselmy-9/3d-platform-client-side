@@ -4,6 +4,8 @@ import { LoginSchema } from "@/types/validation/loginSchema";
 import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
 import { prisma } from "@/prisma/prisma";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   const validateData = LoginSchema.parse(data);
@@ -20,6 +22,14 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
   });
   if (!userExists || !userExists.password || !userExists.email) {
     return { error: "User Not found" };
+  }
+
+  if (!userExists.emailVerified) {
+    const verificationToken = await generateVerificationToken(userExists.email);
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
   }
 
   try {

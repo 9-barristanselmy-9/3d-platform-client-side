@@ -14,3 +14,17 @@ export const getUserById = (userId: string) => {
     return null;
   }
 };
+export const getUserByEmail = (email: string) => {
+  try {
+    const user = prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    console.log(user);
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
