@@ -13,12 +13,9 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
     if (!validateData) {
       return { error: "invalid  input data" };
     }
-    const { email, name, password, confirmPassword } = validateData;
+    const { email, name, password } = validateData;
 
-    if (password !== confirmPassword) {
-      return { error: "Passwords do not much" };
-    }
-
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     // Check to see if user already exists
     const userExists = await prisma.user.findFirst({
@@ -37,7 +34,7 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
     await prisma.user.create({
       data: {
         email: lowerCaseEmail,
-        name,
+        name:name,
         password: hashedPassword,
       },
     });

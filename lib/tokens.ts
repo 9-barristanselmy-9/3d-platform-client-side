@@ -5,7 +5,10 @@ import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
 
 export const generatePasswordResetToken = async (email: string) => {
   const token = uuidv4();
-  const expire = new Date(new Date().getTime() + 3600 * 1000);
+  const now = new Date();
+  const ONE_HOUR = 3600 * 1000; // 1h in milliseconds
+  const THIRTY_MINUTES = 30 * 60 * 1000; // 30min in milliseconds
+  const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES);
   const existingToken = await getPasswordResetTokenByEmail(email);
 
   if (existingToken) {
@@ -27,8 +30,17 @@ export const generatePasswordResetToken = async (email: string) => {
 
 export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();
+  const now = new Date();
+  const ONE_HOUR = 3600 * 1000; // 1h in milliseconds
+  const THIRTY_MINUTES = 30 * 60 * 1000; // 30min in milliseconds
 
-  const expire = new Date(new Date().getTime() + 3600 * 1000);
+  const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES); //EXPIRE IN 1h30min
+
+  // Debug logging - shows local time and UTC time
+  console.log("Current local time:", now.toString());
+  console.log("Current UTC time:", now.toISOString());
+  console.log("Expiration local time:", expire.toString());
+  console.log("Expiration UTC time:", expire.toISOString());
 
   const existingToken = await getVerificationTokenByEmail(email);
 
