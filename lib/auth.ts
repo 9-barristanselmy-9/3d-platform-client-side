@@ -12,6 +12,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   ...authConfig,
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
   events: {
     async linkAccount({ user }) {
       await prisma.user.update({
@@ -26,12 +30,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return true;
       }
       if (!user.id) return false;
-       const existingUser = await getUserById(user.id);
+      const existingUser = await getUserById(user.id);
       // check if email verified or not
-       if (!existingUser?.emailVerified) {
-         return false;
-       }
-       //TODO: add 2FA check  
+      if (!existingUser?.emailVerified) {
+        return false;
+      }
+      //TODO: add 2FA check
       return true;
     },
     async jwt({ token }) {

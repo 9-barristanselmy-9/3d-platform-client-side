@@ -6,6 +6,7 @@ import { signIn } from "@/lib/auth";
 import { prisma } from "@/prisma/prisma";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   const validateData = LoginSchema.parse(data);
@@ -36,7 +37,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email: userExists.email,
       password: password,
-      redirectTo: "/",
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {

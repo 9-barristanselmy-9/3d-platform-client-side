@@ -7,8 +7,6 @@ import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import { auth } from "@/lib/auth";
-import { Toaster } from "@/components/ui/sonner";
-
 const SpaceGrotesk = localFont({
   src: [
     { path: "/fonts/SpaceGrotesk-Regular.ttf", weight: "400", style: "normal" },
@@ -46,7 +44,6 @@ export default async function RootLayout({
           className={`${SpaceGrotesk.className} ${inter.className} antialiased`}
         >
           {children}
-          <Toaster />
         </body>
       </SessionProvider>
     </html>
