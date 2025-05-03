@@ -68,11 +68,14 @@ const ResetForm = () => {
                 </FormItem>
               )}
             />
-           
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button className="w-full" type="submit" disabled={isPending}>
+          <Button
+            className="w-full text-white"
+            type="submit"
+            disabled={isPending}
+          >
             Send reset email
           </Button>
         </form>

@@ -36,11 +36,6 @@ export const generateVerificationToken = async (email: string) => {
 
   const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES); //EXPIRE IN 1h30min
 
-  // Debug logging - shows local time and UTC time
-  console.log("Current local time:", now.toString());
-  console.log("Current UTC time:", now.toISOString());
-  console.log("Expiration local time:", expire.toString());
-  console.log("Expiration UTC time:", expire.toISOString());
 
   const existingToken = await getVerificationTokenByEmail(email);
 
