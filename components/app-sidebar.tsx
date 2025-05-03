@@ -111,7 +111,6 @@ const data = {
 };
 
 export function AppSidebar({ user }: { user: User }) {
-  console.log(user);
   return (
     <Sidebar className="top-[--header-height] !h-[calc(100svh-var(--header-height))]">
       <SidebarHeader>

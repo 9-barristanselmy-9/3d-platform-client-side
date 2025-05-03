@@ -49,7 +49,6 @@ export const newPassword = async (
 
     return { success: "Password updated!" };
   } catch {
-    console.log("id of the user", existingToken.id);
     return { error: "Something went wrong Oops!" };
   }
 };
