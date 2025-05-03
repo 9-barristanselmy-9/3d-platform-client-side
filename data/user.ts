@@ -7,10 +7,9 @@ export const getUserById = (userId: string) => {
         id: userId,
       },
     });
-    console.log(user);
     return user;
-  } catch (error) {
-    console.log(error);
+  } catch  {
+    
     return null;
   }
 };
@@ -21,10 +20,8 @@ export const getUserByEmail = (email: string) => {
         email: email,
       },
     });
-    console.log(user);
     return user;
-  } catch (error) {
-    console.log(error);
+  } catch  {
     return null;
   }
 };
