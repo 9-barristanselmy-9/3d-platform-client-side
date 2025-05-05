@@ -11,14 +11,17 @@ datasource db {
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name          String
-  email         String    @unique
-  image         String?
-  emailVerified DateTime?
-  password      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  account       Account[]
+  name               String
+  email              String    @unique
+  image              String?
+  emailVerified      DateTime?
+  password           String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  account            Account[]
+  isTwoFactorEnabled Boolean   @default(false)
+
+  twoFactorConfirmation TwoFactorConfirmation?
 }
 
 model Account {
@@ -57,4 +60,21 @@ model PasswordResetToken {
   expire DateTime
 
   @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  email  String
+  token  String   @unique
+  expire DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }

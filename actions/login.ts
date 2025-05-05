@@ -4,9 +4,12 @@ import { LoginSchema } from "@/types/validation/loginSchema";
 import { AuthError } from "next-auth";
 import { signIn } from "@/lib/auth";
 import { prisma } from "@/prisma/prisma";
-import { generateVerificationToken } from "@/lib/tokens";
-import { sendVerificationEmail } from "@/lib/mail";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mail";
+import {
+  generateVerificationToken,
+  generateTwoFactorToken,
+} from "@/lib/tokens";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   const validateData = LoginSchema.parse(data);
@@ -32,7 +35,13 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
       verificationToken.token
     );
   }
+  // send 2FA token to the user
+  if (userExists.isTwoFactorEnabled && userExists.email) {
+    const twoFactorToken = await generateTwoFactorToken(email);
+    await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
 
+    return { twoFactor: true };
+  }
   try {
     await signIn("credentials", {
       email: userExists.email,

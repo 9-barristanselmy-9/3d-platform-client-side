@@ -1,7 +1,37 @@
-import { prisma } from "@/prisma/prisma";
+import crypto from "crypto";
 import { v4 as uuidv4 } from "uuid";
+import { prisma } from "@/prisma/prisma";
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
+import { GetTwoFactorTokenByEmail } from "@/data/two-factor-token";
+
+//for the 2F authentication
+
+export const generateTwoFactorToken = async (email: string) => {
+  const token = crypto.randomInt(100_000, 1_000_000).toString(); //  generates 6 digits number
+  const now = new Date();
+  const ONE_HOUR = 3600 * 1000; // 1h in milliseconds
+  const THIRTY_MINUTES = 30 * 60 * 1000; // 30min in milliseconds
+  const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES);
+
+  const existingToken = await GetTwoFactorTokenByEmail(email);
+  if (existingToken) {
+    await prisma.twoFactorToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+  }
+
+  const twoFactorToken = await prisma.twoFactorToken.create({
+    data: {
+      email,
+      token,
+      expire,
+    },
+  });
+  return twoFactorToken;
+};
 
 export const generatePasswordResetToken = async (email: string) => {
   const token = uuidv4();
@@ -35,7 +65,6 @@ export const generateVerificationToken = async (email: string) => {
   const THIRTY_MINUTES = 30 * 60 * 1000; // 30min in milliseconds
 
   const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES); //EXPIRE IN 1h30min
-
 
   const existingToken = await getVerificationTokenByEmail(email);
 

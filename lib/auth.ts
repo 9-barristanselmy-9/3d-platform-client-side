@@ -5,6 +5,7 @@ import { prisma } from "../prisma/prisma";
 import authConfig from "@/auth.config";
 import { getUserById } from "@/data/user";
 import { getAccountByUserId } from "@/data/accounts";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -36,6 +37,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return false;
       }
       //TODO: add 2FA check
+
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        );
+        if (!twoFactorConfirmation) return false;
+      }
       return true;
     },
     async jwt({ token }) {
