@@ -10,9 +10,9 @@ import { GetTwoFactorTokenByEmail } from "@/data/two-factor-token";
 export const generateTwoFactorToken = async (email: string) => {
   const token = crypto.randomInt(100_000, 1_000_000).toString(); //  generates 6 digits number
   const now = new Date();
-  const ONE_HOUR = 3600 * 1000; // 1h in milliseconds
-  const THIRTY_MINUTES = 30 * 60 * 1000; // 30min in milliseconds
-  const expire = new Date(now.getTime() + ONE_HOUR + THIRTY_MINUTES);
+  //const ONE_HOUR = 3600 * 1000; // 1h in milliseconds
+  const FIFTEEN_MINUTES = 15 * 60 * 1000; // 15min in milliseconds
+  const expire = new Date(now.getTime() + FIFTEEN_MINUTES);
 
   const existingToken = await GetTwoFactorTokenByEmail(email);
   if (existingToken) {

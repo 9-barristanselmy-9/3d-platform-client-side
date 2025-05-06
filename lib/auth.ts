@@ -42,6 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
           existingUser.id
         );
+        // add expire 2FA TOKEN 2 weeks 
         if (!twoFactorConfirmation) return false;
       }
       return true;

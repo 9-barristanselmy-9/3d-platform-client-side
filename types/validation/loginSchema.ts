@@ -1,4 +1,4 @@
-import { object, optional, z } from "zod";
+import { object, z } from "zod";
 
 export const LoginSchema = object({
   email: z.string().email({
@@ -7,5 +7,5 @@ export const LoginSchema = object({
   password: z.string().min(1, {
     message: "Please enter a valide password ",
   }),
-  optional: 
+  code: z.optional(z.string()),
 });

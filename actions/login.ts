@@ -10,6 +10,8 @@ import {
   generateVerificationToken,
   generateTwoFactorToken,
 } from "@/lib/tokens";
+import { GetTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   const validateData = LoginSchema.parse(data);
@@ -17,7 +19,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     return { error: "invalid input data" };
   }
 
-  const { email, password } = validateData;
+  const { email, password, code } = validateData;
 
   const userExists = await prisma.user.findFirst({
     where: {
@@ -37,10 +39,48 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
   }
   // send 2FA token to the user
   if (userExists.isTwoFactorEnabled && userExists.email) {
-    const twoFactorToken = await generateTwoFactorToken(email);
-    await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+    if (code) {
+      const twoFactorToken = await GetTwoFactorTokenByEmail(userExists.email);
+      if (!twoFactorToken) {
+        return { error: "Invalid code!" };
+      }
 
-    return { twoFactor: true };
+      if (twoFactorToken.token !== code) {
+        return { error: "Invalid code!" };
+      }
+      const hasExpired = new Date(twoFactorToken.expire) < new Date();
+
+      if (hasExpired) {
+        return { error: "Code expired!" };
+      }
+
+      await prisma.twoFactorToken.delete({
+        where: {
+          id: twoFactorToken.id,
+        },
+      });
+
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(
+        userExists.id
+      );
+
+      if (existingConfirmation) {
+        await prisma.twoFactorConfirmation.delete({
+          where: {
+            id: existingConfirmation.id,
+          },
+        });
+      }
+      await prisma.twoFactorConfirmation.create({
+        data: {
+          userId: userExists.id,
+        },
+      });
+    } else {
+      const twoFactorToken = await generateTwoFactorToken(userExists.email);
+      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
+      return { twoFactor: true };
+    }
   }
   try {
     await signIn("credentials", {
