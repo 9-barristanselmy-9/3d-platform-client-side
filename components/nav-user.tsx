@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import Logout from "./auth/logout-button";
+import { LogoutButton } from "./auth/logout-button";
 import { User } from "next-auth";
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
@@ -89,7 +89,7 @@ export function NavUser({ user }: { user: User }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Logout />
+              <LogoutButton />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

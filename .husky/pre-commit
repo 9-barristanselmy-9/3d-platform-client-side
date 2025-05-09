@@ -1,0 +1,10 @@
+# !/bin/sh
+
+  echo "production start" 
+  npm run build 
+if [ $? -ne 0 ]; then
+    echo " build failed!!!. Commit canceled"
+    exit 1
+fi
+
+# npm test
