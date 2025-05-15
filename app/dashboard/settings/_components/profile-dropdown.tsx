@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogoutButton } from "@/components/auth/logout-button";
-import { useCuurentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const ProfileDropdown = () => {
-  const user = useCuurentUser();
+  const user = useCurrentUser();
 
   return (
     <div className="flex items-center gap-4">

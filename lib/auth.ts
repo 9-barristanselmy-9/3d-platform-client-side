@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../prisma/prisma";
 import authConfig from "@/auth.config";
@@ -8,11 +7,6 @@ import { getAccountByUserId } from "@/data/accounts";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-  },
-  ...authConfig,
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
@@ -42,10 +36,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
           existingUser.id
         );
-        // add expire 2FA TOKEN 2 weeks 
+        // add expire 2FA TOKEN 2 weeks
         if (!twoFactorConfirmation) return false;
       }
       return true;
+    },
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          isOauth: token.isOauth,
+          isTwoFactorEnabled: token.isTwoFactorEnabled,
+        },
+      };
     },
     async jwt({ token }) {
       if (!token.sub) return token;
@@ -57,17 +65,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.image = existingUser.image;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       return token;
     },
-    async session({ token, session }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub,
-          isOauth: token.isOauth,
-        },
-      };
-    },
   },
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
+  ...authConfig,
 });

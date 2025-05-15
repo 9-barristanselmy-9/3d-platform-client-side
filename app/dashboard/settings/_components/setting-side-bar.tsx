@@ -13,11 +13,11 @@ export const SettingsSidebar = ({ className }: SettingsSidebarProps) => {
   console.log("cuurent path", pathname);
   const menuItems = [
     { name: "PROFILE", path: "/dashboard/settings/profile" },
-    { name: "EMAIL", path: "/settings/email" },
-    { name: "PASSWORD & API", path: "/settings/password" },
-    { name: "NOTIFICATIONS", path: "/settings/notifications" },
-    { name: "CONNECTED ACCOUNTS", path: "/settings/connected-accounts" },
-    { name: "ACCOUNT", path: "/settings/account" },
+    // { name: "EMAIL", path: "/settings/email" },
+    // { name: "PASSWORD & API", path: "/settings/password" },
+    // { name: "NOTIFICATIONS", path: "/settings/notifications" },
+    // { name: "CONNECTED ACCOUNTS", path: "/settings/connected-accounts" },
+    // { name: "ACCOUNT", path: "/settings/account" },
   ];
 
   return (
