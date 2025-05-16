@@ -31,6 +31,6 @@ export const SettingsSchema = z
     },
     {
       message: "password is required! ",
-      path: ["Password"],
+      path: ["password"],
     }
   );
