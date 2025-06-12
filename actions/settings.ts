@@ -7,6 +7,7 @@ import { prisma } from "@/prisma/prisma";
 import { SettingsSchema } from "@/types/validation/settingSchema";
 import bcrypt from "bcryptjs";
 import * as z from "zod";
+import {unstable_update} from "@/lib/auth"
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
@@ -56,10 +57,20 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
-  await prisma.user.update({
+  const updatedUser= await prisma.user.update({
     where: { id: dbUser.id },
     data: { ...values },
   });
+  
+  unstable_update({
+    user:{
+      name:updatedUser.name,
+      email:updatedUser.email,
+      isTwoFactorEnabled:updatedUser.isTwoFactorEnabled,
+
+    }
+  })
+
 
   return { success: "modification applied" };
 };

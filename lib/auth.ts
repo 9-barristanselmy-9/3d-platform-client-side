@@ -6,7 +6,7 @@ import { getUserById } from "@/data/user";
 import { getAccountByUserId } from "@/data/accounts";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut,unstable_update } = NextAuth({
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
