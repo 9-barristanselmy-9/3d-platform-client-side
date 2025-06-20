@@ -13,7 +13,10 @@ import {
 import { GetTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
-export const login = async (data: z.infer<typeof LoginSchema>) => {
+export const login = async (
+  data: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
   const validateData = LoginSchema.parse(data);
   if (!validateData) {
     return { error: "invalid input data" };
@@ -86,7 +89,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email: userExists.email,
       password: password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {

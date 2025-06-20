@@ -1,3 +1,5 @@
+import LoginButton from "@/components/auth/login-button";
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 const LandingPage = () => {
@@ -7,8 +9,14 @@ const LandingPage = () => {
         <h1 className="text-4xl font-bold mb-4">
           The Leading Platform for 3D & AR on the Web
         </h1>
-        
-        <p className="text-lg">Build, explore, and share immersive 3D experiences.</p>
+        <p className="text-lg my-2">
+          Build, explore, and share immersive 3D experiences.
+        </p>
+        <LoginButton mode="modal" asChild >
+          <Button size="lg" className="uppercase">
+            join for free 
+          </Button>
+        </LoginButton>
       </div>
     </div>
   );

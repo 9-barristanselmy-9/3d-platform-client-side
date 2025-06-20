@@ -21,8 +21,10 @@ import { login } from "@/actions/login";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import OtpInput from "./otp-input";
+
 export const LoginForm = () => {
   const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("");
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider!"
@@ -44,7 +46,7 @@ export const LoginForm = () => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values)
+      login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
             form.reset();
@@ -149,7 +151,7 @@ export const LoginForm = () => {
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
           <div className="flex justify-center">
-            <div className="w-full max-w-[256px]">
+            <div className="w-full ">
               <Button
                 className="w-full text-white"
                 type="submit"
