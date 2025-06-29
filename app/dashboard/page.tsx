@@ -1,32 +1,53 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
+"use client";
+import ModelCard from "@/components/model/ModelCard";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-  const session = await auth();
+interface Model {
+  id: string;
+  fileName: string;
+  modelUrl: string;
+  createdAt: string;
+  user: {
+    name: string;
+    image?: string | null;
+  };
+  description?: string;
+  likes?: number;
+}
+export default function Page() {
+  const user = useCurrentUser();
+  const [models, setModels] = useState<Model[]>([]);
+
+  useEffect(() => {
+    async function fetchModels() {
+      try {
+        const res = await fetch("/api/models");
+        if (!res.ok) throw new Error("Failed to fetch models");
+        const data = await res.json();
+        setModels(data);
+      } catch (error) {
+        console.error("Error loading models:", error);
+      }
+    }
+
+    if (user) {
+      fetchModels();
+    }
+  }, [user]);
   return (
-    <div className="[--header-height:calc(theme(spacing.14))]">
-      <SidebarProvider className="flex flex-col">
-        <SiteHeader />
-        <div className="flex flex-1">
-          {session?.user ? (
-            <AppSidebar user={session?.user} />
-          ) : (
-            <div>Loading...</div>
-          )}
-          <SidebarInset>
-            <div className="flex flex-1 flex-col gap-4 p-4 bg-white">
-              <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-              </div>
-              <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+    <div className="min-h-screen flex flex-col">
+      <div className="flex overflow-x-auto gap-4 m-10">
+        {models.length === 0 ? (
+          <p className="text-muted-foreground">No models uploaded yet.</p>
+        ) : (
+          models.map((model) => (
+            <div key={model.id} className="min-w-[300px] max-w-[300px]">
+              <ModelCard key={model.id} model={model} />
             </div>
-          </SidebarInset>
-        </div>
-      </SidebarProvider>
+          ))
+        )}
+      </div>
     </div>
   );
 }

@@ -1,3 +1,6 @@
+import Header from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -12,9 +15,12 @@ export const metadata: Metadata = {
 };
 
 export default function SettingLayout({ children }: { children: ReactNode }) {
+  
   return (
     <body className={` ${inter.className} antialiased `}>
+      <Header />
       {children}
+      <Toaster richColors closeButton />
     </body>
   );
 }
