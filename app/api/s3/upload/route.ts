@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   console.log(user);
   if (!user) {
-    return { error: "Unauthorized" };
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
@@ -46,9 +46,8 @@ export async function POST(request: Request) {
       ContentLength: size,
     });
 
-    console.log("***********this line************", command);
     const presignedUrl = await getSignedUrl(s3, command, {
-      expiresIn: 720, //6 min
+      expiresIn: 360, //6 min
     });
 
     console.log("presigneUrl", presignedUrl);
@@ -67,8 +66,8 @@ export async function POST(request: Request) {
       presignedUrl,
       key: uniqueKey,
     };
-    console.log("*******response*********", response);
-    return NextResponse.json(response);
+
+    return NextResponse.json(response, { status: 200 });
   } catch {
     return NextResponse.json(
       { error: "Internal Server error" },
