@@ -21,6 +21,10 @@ const DashboardPage = () => {
   const [models, setModels] = useState<Model[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const handleModelDelete = (deletedModelId: string) => {
+    setModels(prevModels => prevModels.filter(model => model.id !== deletedModelId));
+  };
+
   useEffect(() => {
     const fetchModels = async () => {
       if (!user) return;
@@ -120,10 +124,10 @@ const DashboardPage = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {models.map((model) => (
-                  <ModelCard key={model.id} model={model} />
-                ))}
-              </div>
+              {models.map((model) => (
+                <ModelCard key={model.id} model={model} onDelete={handleModelDelete} />
+              ))}
+            </div>
             )}
           </div>
         </div>

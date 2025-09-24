@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Download, Eye, Heart, MoreHorizontal } from "lucide-react";
+import { Download, Eye, Heart, MoreHorizontal, Trash2, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -8,6 +9,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 interface ModelCardProps {
   model: {
@@ -26,9 +37,11 @@ interface ModelCardProps {
     likes?: number;
     views?: number;
   };
+  onDelete?: (modelId: string) => void;
 }
 
-export const ModelCard = ({ model }: ModelCardProps) => {
+export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
+  const [isDeleting, setIsDeleting] = useState(false);
   const title = model.title || model.fileName || "Untitled Model";
   const downloadUrl = model.fileUrl || model.modelUrl || "";
   const createdDate = new Date(model.createdAt).toLocaleDateString('en-US', {
@@ -37,14 +50,37 @@ export const ModelCard = ({ model }: ModelCardProps) => {
     year: 'numeric'
   });
 
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/models/${model.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete model');
+      }
+
+      toast.success('Model deleted successfully');
+      onDelete?.(model.id);
+    } catch (error) {
+      console.error('Error deleting model:', error);
+      toast.error('Failed to delete model');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="group bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-1">
       {/* Thumbnail */}
       <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
         {model.thumbnailUrl ? (
-          <img 
+          <Image 
             src={model.thumbnailUrl} 
             alt={title}
+            width={400}
+            height={400}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
@@ -102,8 +138,12 @@ export const ModelCard = ({ model }: ModelCardProps) => {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="p-2 hover:bg-slate-100 rounded-full">
-                <MoreHorizontal className="w-4 h-4 text-slate-500" />
+              <Button variant="ghost" size="sm" className="p-2 hover:bg-slate-100 rounded-full" disabled={isDeleting}>
+                {isDeleting ? (
+                  <Loader2 className="w-4 h-4 text-slate-500 animate-spin" />
+                ) : (
+                  <MoreHorizontal className="w-4 h-4 text-slate-500" />
+                )}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
@@ -113,9 +153,43 @@ export const ModelCard = ({ model }: ModelCardProps) => {
               <DropdownMenuItem className="text-slate-700">
                 Share
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-red-600">
-                Delete
-              </DropdownMenuItem>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem 
+                    className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete your
+                      model "{title}" and remove the file from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button variant="outline">Cancel</Button>
+                    <Button
+                      onClick={handleDelete}
+                      className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Deleting...
+                        </>
+                      ) : (
+                        'Delete Model'
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
