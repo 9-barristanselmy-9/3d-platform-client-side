@@ -83,7 +83,9 @@ const ProfileSettingsForm = () => {
               <div className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:bg-slate-200 hover:scale-105">
                 <User className="w-4 h-4 text-slate-600" />
               </div>
-              <h3 className="text-lg font-medium text-slate-800">Basic Information</h3>
+              <h3 className="text-lg font-medium text-slate-800">
+                Basic Information
+              </h3>
             </div>
 
             <FormField
@@ -115,7 +117,9 @@ const ProfileSettingsForm = () => {
                 <div className="w-8 h-8 bg-slate-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:bg-slate-200 hover:scale-105">
                   <Shield className="w-4 h-4 text-slate-600" />
                 </div>
-                <h3 className="text-lg font-medium text-slate-800">Security Settings</h3>
+                <h3 className="text-lg font-medium text-slate-800">
+                  Security Settings
+                </h3>
               </div>
 
               <FormField
@@ -202,7 +206,8 @@ const ProfileSettingsForm = () => {
                           <span>Two-Factor Authentication</span>
                         </FormLabel>
                         <FormDescription className="text-slate-600 font-light leading-relaxed transition-colors duration-200 group-hover:text-slate-700">
-                          Add an extra layer of security to your account with two-factor authentication
+                          Add an extra layer of security to your account with
+                          two-factor authentication
                         </FormDescription>
                       </div>
                       <FormControl>
@@ -236,8 +241,8 @@ const ProfileSettingsForm = () => {
 
           {/* Action Buttons */}
           <div className="flex justify-end pt-8 border-t border-slate-200 animate-in fade-in-0 slide-in-from-bottom-4 duration-600 delay-400">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isPending}
               className="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-slate-900/25 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 group"
             >

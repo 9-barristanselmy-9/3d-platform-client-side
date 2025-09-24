@@ -7,7 +7,7 @@ import { s3 } from "@/lib/s3Client";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const user = await currentUser();
 
@@ -47,13 +47,13 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: "Model deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error deleting model:", error);
     return NextResponse.json(
       { error: "Failed to delete model" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

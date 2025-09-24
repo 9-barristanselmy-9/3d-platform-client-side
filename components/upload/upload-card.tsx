@@ -1,5 +1,5 @@
 "use client";
-import { useCallback,  useState } from "react";
+import { useCallback, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,9 @@ const UploadCard = () => {
     }>
   >([]);
 
-
   const uploadFile = async (file: File) => {
     setFiles((prevFiles) =>
-      prevFiles.map((f) => (f.file === file ? { ...f, uploading: true } : f))
+      prevFiles.map((f) => (f.file === file ? { ...f, uploading: true } : f)),
     );
 
     try {
@@ -48,8 +47,8 @@ const UploadCard = () => {
           prevFiles.map((f) =>
             f.file === file
               ? { ...f, uploading: false, progress: 0, error: true }
-              : f
-          )
+              : f,
+          ),
         );
 
         return;
@@ -71,8 +70,8 @@ const UploadCard = () => {
               prevFiles.map((f) =>
                 f.file === file
                   ? { ...f, progress: Math.round(percentComplete), key: key }
-                  : f
-              )
+                  : f,
+              ),
             );
           }
         };
@@ -84,8 +83,8 @@ const UploadCard = () => {
               prevFiles.map((f) =>
                 f.file === file
                   ? { ...f, progress: 100, uploading: false, error: false }
-                  : f
-              )
+                  : f,
+              ),
             );
 
             toast.success("File uploaded successfully");
@@ -111,8 +110,8 @@ const UploadCard = () => {
         prevFiles.map((f) =>
           f.file === file
             ? { ...f, uploading: false, progress: 0, error: true }
-            : f
-        )
+            : f,
+        ),
       );
     }
   };
@@ -139,11 +138,11 @@ const UploadCard = () => {
   const rejectedFiles = useCallback((fileRejection: FileRejection[]) => {
     if (fileRejection.length) {
       const toomanyFiles = fileRejection.find(
-        (rejection) => rejection.errors[0].code === "too-many-files"
+        (rejection) => rejection.errors[0].code === "too-many-files",
       );
 
       const fileSizetoBig = fileRejection.find(
-        (rejection) => rejection.errors[0].code === "file-too-large"
+        (rejection) => rejection.errors[0].code === "file-too-large",
       );
 
       if (toomanyFiles) {
@@ -167,12 +166,10 @@ const UploadCard = () => {
     },
   });
 
-
-
   return (
     <Card
       className={cn(
-        "relative border-2 border-dashed transition-color duration-200 ease-in-out h-64 w-full max-w-xl mx-auto"
+        "relative border-2 border-dashed transition-color duration-200 ease-in-out h-64 w-full max-w-xl mx-auto",
       )}
       {...getRootProps()}
     >

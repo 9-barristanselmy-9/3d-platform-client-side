@@ -42,11 +42,9 @@ const LoginButton = ({
       <Dialog>
         <DialogTrigger asChild={asChild}>
           {asChild ? (
-            <div className={`cursor-pointer ${className}`}>
-              {children}
-            </div>
+            <div className={`cursor-pointer ${className}`}>{children}</div>
           ) : (
-            <button 
+            <button
               className={`px-8 py-3 rounded-full font-medium transition-all duration-200 ${getVariantClasses()} ${className}`}
             >
               {children}
@@ -61,8 +59,8 @@ const LoginButton = ({
   }
 
   return (
-    <button 
-      onClick={onClick} 
+    <button
+      onClick={onClick}
       className={`px-8 py-3 rounded-full font-medium transition-all duration-200 ${getVariantClasses()} ${className}`}
     >
       {children}

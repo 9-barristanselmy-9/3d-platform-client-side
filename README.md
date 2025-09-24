@@ -1,5 +1,7 @@
 # ABOUT
+
 # 🧊 3D Model Sharing Platform
+
 A platform where creators can soon upload and share 3D models.  
 For now, you can **sign up and log in** — the rest is coming soon!
 
@@ -8,8 +10,9 @@ For now, you can **sign up and log in** — the rest is coming soon!
 - ✅ User registration (sign up)
 - ✅ User login (sign in)
 - 🔒 Protected routes for authenticated users
-  
-## 🚀 Coming Soon   
+
+## 🚀 Coming Soon
+
 - 🧠 Upload and preview 3D models
 - 👤 User profiles
 - ❤️ Like & comment system
@@ -19,16 +22,22 @@ For now, you can **sign up and log in** — the rest is coming soon!
 - 📦 15GB free storage per user
 
 ## 🧱 Tech Stack
+
 - **Frontend:** Next.js 15 (using Server Actions), React, Tailwind CSS
 - **Database:** MongoDB with **Prisma ORM**
 - **Authentication:** Auth.js v5
+
 ## 🔐 Demo Login
+
 You can explore the app using:
 
 **Email**: demo@demo.com  
 **Password**: demopassword
+
 ## Installation
+
 Create a .env.local file in the root of the project and add the required environment variables
+
 ```bash
 MONGODB_URI==<mongodb_url>
 NEXTAUTH_SECRET=<your_secret>
@@ -40,8 +49,6 @@ AUTH_DISCORD_SECRET=<your_discord_client_secret>
 AUTH_GITHUB_ID=<your_github_client_id>
 AUTH_GITHUB_SECRET=<your_github_client_secret>
 ```
-
-
 
 ## Getting Started
 

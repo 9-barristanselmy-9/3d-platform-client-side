@@ -6,7 +6,7 @@ import { getUserById } from "@/data/user";
 import { getAccountByUserId } from "@/data/accounts";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
-export const { handlers, auth, signIn, signOut,unstable_update } = NextAuth({
+export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
@@ -34,7 +34,7 @@ export const { handlers, auth, signIn, signOut,unstable_update } = NextAuth({
 
       if (existingUser.isTwoFactorEnabled) {
         const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          existingUser.id
+          existingUser.id,
         );
         // add expire 2FA TOKEN 2 weeks
         if (!twoFactorConfirmation) return false;

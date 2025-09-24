@@ -15,15 +15,15 @@ export const GetTwoFactorTokenByToken = async (token: string) => {
 };
 
 export const GetTwoFactorTokenByEmail = async (email: string) => {
-    try {
-      const twoFactorToken = await prisma.twoFactorToken.findFirst({
-        where: {
-          email: email,
-        },
-      });
-  
-      return twoFactorToken;
-    } catch {
-      return null;
-    }
-  };
+  try {
+    const twoFactorToken = await prisma.twoFactorToken.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    return twoFactorToken;
+  } catch {
+    return null;
+  }
+};

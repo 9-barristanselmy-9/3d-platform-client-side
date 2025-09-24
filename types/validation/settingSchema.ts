@@ -19,7 +19,7 @@ export const SettingsSchema = z
     {
       message: "New password is required! ",
       path: ["newPassword"],
-    }
+    },
   )
   .refine(
     (data) => {
@@ -32,5 +32,5 @@ export const SettingsSchema = z
     {
       message: "password is required! ",
       path: ["password"],
-    }
+    },
   );

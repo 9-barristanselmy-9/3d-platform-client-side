@@ -90,58 +90,58 @@
   .container-responsive {
     @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16;
   }
-  
+
   .spacing-section {
     @apply py-12 sm:py-16 lg:py-20 xl:py-24;
   }
-  
+
   .spacing-component {
     @apply p-4 sm:p-6 lg:p-8;
   }
-  
+
   .text-responsive-xl {
     @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl;
   }
-  
+
   .text-responsive-lg {
     @apply text-xl sm:text-2xl lg:text-3xl;
   }
-  
+
   .text-responsive-base {
     @apply text-sm sm:text-base lg:text-lg;
   }
-  
+
   .grid-responsive-cards {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8;
   }
-  
+
   .grid-responsive-stats {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8;
   }
-  
+
   /* Premium backdrop blur effects */
   .backdrop-premium {
     @apply backdrop-blur-md bg-white/80 border border-slate-200/50;
   }
-  
+
   /* Elegant shadows */
   .shadow-premium {
     @apply shadow-xl shadow-slate-200/50;
   }
-  
+
   .shadow-premium-hover {
     @apply hover:shadow-2xl hover:shadow-slate-200/60;
   }
-  
+
   /* Smooth transitions */
   .transition-premium {
     @apply transition-all duration-300 ease-out;
   }
-  
+
   .transition-premium-slow {
     @apply transition-all duration-500 ease-out;
   }
-  
+
   /* Text truncation utilities */
   .line-clamp-2 {
     display: -webkit-box;
@@ -149,7 +149,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -163,11 +163,11 @@
   .mobile-stack {
     @apply flex-col space-y-4 space-x-0;
   }
-  
+
   .mobile-full-width {
     @apply w-full;
   }
-  
+
   .mobile-center {
     @apply text-center items-center justify-center;
   }
@@ -178,7 +178,7 @@
   .tablet-grid-2 {
     @apply grid-cols-2;
   }
-  
+
   .tablet-spacing {
     @apply px-6 py-8;
   }
@@ -189,7 +189,7 @@
   .desktop-grid-4 {
     @apply grid-cols-4;
   }
-  
+
   .desktop-spacing {
     @apply px-8 py-12;
   }
