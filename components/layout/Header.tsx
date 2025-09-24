@@ -52,7 +52,7 @@ const Header = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link
-                href="/dashboard/settings"
+                href="/dashboard/settings/profile"
                 className="flex items-center gap-2"
               >
                 <Settings className="w-4 h-4" />
