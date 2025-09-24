@@ -7,7 +7,7 @@ export const getTwoFactorConfirmationByUserId = async (userId: string) => {
         where: {
           userId,
         },
-      }
+      },
     );
     return twoFactorConfirmation;
   } catch {

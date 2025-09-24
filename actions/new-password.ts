@@ -7,7 +7,7 @@ import { getUserByEmail } from "@/data/user";
 import { prisma } from "@/prisma/prisma";
 export const newPassword = async (
   values: z.infer<typeof newPasswordSchema>,
-  token?: string | null
+  token?: string | null,
 ) => {
   if (!token) {
     return { error: "Missing token!" };

@@ -11,8 +11,8 @@ const LandingPage = () => {
           3D Platform
         </div>
         <LoginButton mode="modal" asChild>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="border-slate-200 text-slate-700 hover:bg-slate-50 px-6 py-2 font-medium tracking-wide"
           >
             Sign In
@@ -27,24 +27,27 @@ const LandingPage = () => {
           <div className="space-y-6">
             <h1 className="text-5xl md:text-7xl font-extralight text-slate-900 leading-tight tracking-tight">
               The Future of
-              <span className="block font-light text-slate-600">3D Creation</span>
+              <span className="block font-light text-slate-600">
+                3D Creation
+              </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 font-light leading-relaxed max-w-2xl mx-auto">
-              Build, explore, and share immersive 3D experiences with precision and elegance.
+              Build, explore, and share immersive 3D experiences with precision
+              and elegance.
             </p>
           </div>
 
           {/* CTA Section */}
           <div className="space-y-8">
             <LoginButton mode="modal" asChild>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-slate-900 hover:bg-slate-800 text-white px-12 py-4 text-lg font-medium tracking-wide rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Start Creating
               </Button>
             </LoginButton>
-            
+
             <p className="text-sm text-slate-500 font-light">
               Join thousands of creators • Free to start
             </p>

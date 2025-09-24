@@ -9,7 +9,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 export const Social = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  
+
   const onClick = (provider: "google" | "github" | "discord") => {
     signIn(provider, {
       callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
@@ -23,10 +23,12 @@ export const Social = () => {
           <span className="w-full border-t border-slate-200" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-4 text-slate-500 font-medium">Or continue with</span>
+          <span className="bg-white px-4 text-slate-500 font-medium">
+            Or continue with
+          </span>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 gap-3">
         <Button
           size="lg"
@@ -37,7 +39,7 @@ export const Social = () => {
           <FcGoogle className="w-5 h-5 mr-3" />
           Continue with Google
         </Button>
-        
+
         <Button
           size="lg"
           variant="outline"
@@ -47,7 +49,7 @@ export const Social = () => {
           <FaGithub className="w-5 h-5 mr-3" />
           Continue with GitHub
         </Button>
-        
+
         <Button
           size="lg"
           variant="outline"

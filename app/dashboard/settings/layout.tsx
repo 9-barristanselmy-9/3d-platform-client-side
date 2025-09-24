@@ -9,7 +9,6 @@ interface SettingLayoutProps {
 export default function SettingLayout({ children }: SettingLayoutProps) {
   return (
     <div className="min-h-screen bg-[#f2f2f2] flex flex-col">
-
       <div className="flex-1 flex flex-col mx-24">
         <div className="container p-4 sm:p-6">
           <SettingsHeader title={"My Settings"} />

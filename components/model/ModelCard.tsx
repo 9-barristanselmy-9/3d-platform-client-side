@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Download, Eye, Heart, MoreHorizontal, Trash2, Loader2 } from "lucide-react";
+import {
+  Download,
+  Eye,
+  Heart,
+  MoreHorizontal,
+  Trash2,
+  Loader2,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -44,28 +51,28 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const title = model.title || model.fileName || "Untitled Model";
   const downloadUrl = model.fileUrl || model.modelUrl || "";
-  const createdDate = new Date(model.createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
+  const createdDate = new Date(model.createdAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
       const response = await fetch(`/api/models/${model.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete model');
+        throw new Error("Failed to delete model");
       }
 
-      toast.success('Model deleted successfully');
+      toast.success("Model deleted successfully");
       onDelete?.(model.id);
     } catch (error) {
-      console.error('Error deleting model:', error);
-      toast.error('Failed to delete model');
+      console.error("Error deleting model:", error);
+      toast.error("Failed to delete model");
     } finally {
       setIsDeleting(false);
     }
@@ -76,8 +83,8 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
       {/* Thumbnail */}
       <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
         {model.thumbnailUrl ? (
-          <Image 
-            src={model.thumbnailUrl} 
+          <Image
+            src={model.thumbnailUrl}
             alt={title}
             width={400}
             height={400}
@@ -86,25 +93,35 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <div className="w-16 h-16 bg-slate-300 rounded-2xl flex items-center justify-center">
-              <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              <svg
+                className="w-8 h-8 text-slate-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                />
               </svg>
             </div>
           </div>
         )}
-        
+
         {/* Overlay Actions */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
           <div className="flex items-center space-x-3">
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               className="bg-white/90 text-slate-800 hover:bg-white shadow-lg backdrop-blur-sm border-0 rounded-full px-4 py-2"
             >
               <Eye className="w-4 h-4 mr-2" />
               View
             </Button>
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               asChild
               className="bg-slate-900/90 text-white hover:bg-slate-800 shadow-lg backdrop-blur-sm border-0 rounded-full px-4 py-2"
             >
@@ -138,7 +155,12 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="p-2 hover:bg-slate-100 rounded-full" disabled={isDeleting}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-2 hover:bg-slate-100 rounded-full"
+                disabled={isDeleting}
+              >
                 {isDeleting ? (
                   <Loader2 className="w-4 h-4 text-slate-500 animate-spin" />
                 ) : (
@@ -155,7 +177,7 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
               </DropdownMenuItem>
               <Dialog>
                 <DialogTrigger asChild>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     className="text-red-600 focus:text-red-600 focus:bg-red-50"
                     onSelect={(e) => e.preventDefault()}
                   >
@@ -167,8 +189,8 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
                   <DialogHeader>
                     <DialogTitle>Are you absolutely sure?</DialogTitle>
                     <DialogDescription>
-                      This action cannot be undone. This will permanently delete your
-                      model "{title}" and remove the file from our servers.
+                      This action cannot be undone. This will permanently delete
+                      your model "{title}" and remove the file from our servers.
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
@@ -184,7 +206,7 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
                           Deleting...
                         </>
                       ) : (
-                        'Delete Model'
+                        "Delete Model"
                       )}
                     </Button>
                   </DialogFooter>
@@ -207,9 +229,7 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
               <p className="text-sm font-medium text-slate-800 truncate">
                 {model.user.name}
               </p>
-              <p className="text-xs text-slate-500">
-                {createdDate}
-              </p>
+              <p className="text-xs text-slate-500">{createdDate}</p>
             </div>
           </div>
         )}
@@ -226,9 +246,7 @@ export const ModelCard = ({ model, onDelete }: ModelCardProps) => {
               <span className="text-sm">{model.views || 0}</span>
             </div>
           </div>
-          <div className="text-xs text-slate-400">
-            {createdDate}
-          </div>
+          <div className="text-xs text-slate-400">{createdDate}</div>
         </div>
       </div>
     </div>
