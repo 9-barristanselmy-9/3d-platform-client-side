@@ -24,6 +24,14 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-expressions": "off",
     },
   }),
+  {
+    ignores: [
+      "lib/generated/**/*",
+      "**/*.tmp*",
+      ".next/**/*",
+      "node_modules/**/*",
+    ],
+  },
 ];
 
 export default eslintConfig;
