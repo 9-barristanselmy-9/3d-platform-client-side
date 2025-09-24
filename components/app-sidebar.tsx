@@ -2,16 +2,18 @@
 
 import * as React from "react";
 import {
-  BookOpen,
-  Bot,
-  Command,
+  Home,
+  Upload,
+  User,
+  Settings,
+  Globe,
+  Compass,
   LifeBuoy,
   Send,
-  SquareTerminal,
 } from "lucide-react";
-import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -21,79 +23,50 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { User } from "next-auth";
 
 const data = {
   navMain: [
     {
-      title: "Categories",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: Home,
       isActive: true,
-      items: [
-        {
-          title: "Vehicles",
-          url: "#",
-        },
-        {
-          title: "Characters",
-          url: "#",
-        },
-        {
-          title: "Architecture",
-          url: "#",
-        },
-        {
-          title: "Sci-Fi",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
-      title: "Top Creators",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Zeno",
-          url: "#",
-        },
-        {
-          title: "Fares",
-          url: "#",
-        },
-        {
-          title: "Eslem",
-          url: "#",
-        },
-        {
-          title: "Fadi",
-          url: "#",
-        },
-      ],
+      title: "Upload Model",
+      url: "/dashboard/upload",
+      icon: Upload,
+      isActive: false,
+      items: [],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      title: "Explore",
+      url: "/dashboard/explore",
+      icon: Compass,
+      isActive: false,
+      items: [],
+    },
+    {
+      title: "Public Downloads",
+      url: "/public",
+      icon: Globe,
+      isActive: false,
+      items: [],
+    },
+    {
+      title: "Profile",
+      url: "/dashboard/profile",
+      icon: User,
+      isActive: false,
+      items: [],
+    },
+    {
+      title: "Settings",
+      url: "/dashboard/settings",
+      icon: Settings,
+      isActive: false,
+      items: [],
     },
   ],
   navSecondary: [
@@ -110,17 +83,16 @@ const data = {
   ],
 };
 
-export function AppSidebar({ user }: { user: User }) {
-  console.log(user);
+export function AppSidebar() {
   return (
-    <Sidebar className="top-[--header-height] !h-[calc(100svh-var(--header-height))]">
+    <Sidebar className="h-full">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <a href="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                  <span className="text-white font-bold text-sm">3D</span>
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Morpho3D</span>
@@ -133,11 +105,10 @@ export function AppSidebar({ user }: { user: User }) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
