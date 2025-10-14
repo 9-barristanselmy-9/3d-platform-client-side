@@ -7,21 +7,21 @@ export const getPasswordResetTokenByToken = async (token: string) => {
         token,
       },
     });
-    return passwordResetToken
+    return passwordResetToken;
   } catch {
     return null;
   }
 };
 
 export const getPasswordResetTokenByEmail = async (email: string) => {
-    try {
-      const passwordResetToken = await prisma.passwordResetToken.findFirst({
-        where: {
-          email,
-        },
-      });
-      return passwordResetToken
-    } catch {
-      return null;
-    }
-  };
+  try {
+    const passwordResetToken = await prisma.passwordResetToken.findFirst({
+      where: {
+        email,
+      },
+    });
+    return passwordResetToken;
+  } catch {
+    return null;
+  }
+};

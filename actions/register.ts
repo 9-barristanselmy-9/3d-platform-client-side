@@ -15,7 +15,6 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
     }
     const { email, name, password } = validateData;
 
-    
     const hashedPassword = await bcrypt.hash(password, 10);
     // Check to see if user already exists
     const userExists = await prisma.user.findFirst({
@@ -34,7 +33,7 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
     await prisma.user.create({
       data: {
         email: lowerCaseEmail,
-        name:name,
+        name: name,
         password: hashedPassword,
       },
     });
@@ -42,7 +41,7 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
     const verificationToken = await generateVerificationToken(lowerCaseEmail);
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
     );
 
     return { success: "User created successfully" };

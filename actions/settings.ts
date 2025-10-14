@@ -7,7 +7,7 @@ import { prisma } from "@/prisma/prisma";
 import { SettingsSchema } from "@/types/validation/settingSchema";
 import bcrypt from "bcryptjs";
 import * as z from "zod";
-import {unstable_update} from "@/lib/auth"
+import { unstable_update } from "@/lib/auth";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
@@ -37,7 +37,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     const verificationToken = await generateVerificationToken(values.email);
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
     );
 
     return { success: "Vrification email sent!" };
@@ -46,7 +46,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   if (values.password && values.newPassword && dbUser.password) {
     const passwordsMatch = await bcrypt.compare(
       values.password,
-      dbUser.password
+      dbUser.password,
     );
 
     if (!passwordsMatch) {
@@ -57,20 +57,18 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
-  const updatedUser= await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: { id: dbUser.id },
     data: { ...values },
   });
-  
+
   unstable_update({
-    user:{
-      name:updatedUser.name,
-      email:updatedUser.email,
-      isTwoFactorEnabled:updatedUser.isTwoFactorEnabled,
-
-    }
-  })
-
+    user: {
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
+    },
+  });
 
   return { success: "modification applied" };
 };

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     if (!validation.success) {
       return NextResponse.json(
         { error: "Invalid request body" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       { error: "Internal Server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

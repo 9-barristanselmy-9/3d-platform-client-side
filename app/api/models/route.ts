@@ -1,6 +1,3 @@
-
-
-
 // GET /api/models
 import { NextResponse } from "next/server";
 import { currentUser } from "@/lib/server";
@@ -23,10 +20,7 @@ export async function GET() {
     console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch models" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
-
-

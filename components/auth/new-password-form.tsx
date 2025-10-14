@@ -30,7 +30,7 @@ export const NewPasswordForm = () => {
     resolver: zodResolver(newPasswordSchema),
     defaultValues: {
       newPassword: "",
-      confirmPassword:""
+      confirmPassword: "",
     },
   });
 

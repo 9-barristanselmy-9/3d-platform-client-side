@@ -15,7 +15,7 @@ import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation
 
 export const login = async (
   data: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
+  callbackUrl?: string | null,
 ) => {
   const validateData = LoginSchema.parse(data);
   if (!validateData) {
@@ -37,7 +37,7 @@ export const login = async (
     const verificationToken = await generateVerificationToken(userExists.email);
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
     );
   }
   // send 2FA token to the user
@@ -64,7 +64,7 @@ export const login = async (
       });
 
       const existingConfirmation = await getTwoFactorConfirmationByUserId(
-        userExists.id
+        userExists.id,
       );
 
       if (existingConfirmation) {

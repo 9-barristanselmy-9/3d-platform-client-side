@@ -1,0 +1,58 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚀 Running pre-push checks..."
+
+# Check if we're on main/master branch
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$current_branch" = "main" ] || [ "$current_branch" = "master" ]; then
+    echo "⚠️  You are about to push to the $current_branch branch!"
+    echo "🔍 Running additional validation..."
+    
+    # Run tests if they exist
+    if npm run test --silent > /dev/null 2>&1; then
+        echo "🧪 Running tests..."
+        npm run test
+        if [ $? -ne 0 ]; then
+            echo "❌ Tests failed! Push cancelled."
+            exit 1
+        fi
+    fi
+    
+    # Ensure build passes
+    echo "🏗️ Running production build..."
+    npm run build
+    if [ $? -ne 0 ]; then
+        echo "❌ Production build failed! Push cancelled."
+        exit 1
+    fi
+    
+    # Check for any TODO or FIXME comments in staged files
+    echo "🔍 Checking for TODO/FIXME comments..."
+    if git diff --cached --name-only | xargs grep -l "TODO\|FIXME" 2>/dev/null; then
+        echo "⚠️  Warning: Found TODO/FIXME comments in staged files."
+        echo "   Consider resolving these before pushing to $current_branch."
+        echo "   Continue anyway? (y/N)"
+        read -r response
+        if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+            echo "❌ Push cancelled."
+            exit 1
+        fi
+    fi
+fi
+
+# Check for large files (>10MB)
+echo "📏 Checking for large files..."
+large_files=$(git diff --cached --name-only | xargs ls -la 2>/dev/null | awk '$5 > 10485760 {print $9 " (" $5 " bytes)"}')
+if [ -n "$large_files" ]; then
+    echo "⚠️  Warning: Large files detected:"
+    echo "$large_files"
+    echo "   Consider using Git LFS for large files. Continue anyway? (y/N)"
+    read -r response
+    if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+        echo "❌ Push cancelled."
+        exit 1
+    fi
+fi
+
+echo "✅ All pre-push checks passed!"
